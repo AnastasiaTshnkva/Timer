@@ -1,13 +1,16 @@
 import React from 'react';
-import Title from './Components/Description';
+import Title from 'Components/Description';
+import Timer from 'Components/Timer';
+import GlobalStyleWrapper from "GlobalStyles/GlobalStyleWrapper";
 
 const App = () => {
     return (
-        <main className={'main'}>
-            <Title/>
-            <div>Timer func</div>
-            <div>buttons</div>
-        </main>
+        <GlobalStyleWrapper>
+            <main className={'main'}>
+                <Title/>
+                <Timer/>
+            </main>
+        </GlobalStyleWrapper>
     )
 };
 
