@@ -2,7 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledTitle = styled.div`
-    .title {
+  margin-top: 150px;
+  margin-bottom: 20px;
+  
+    .title, .description {
+      text-align: center;
     }
 `
 
