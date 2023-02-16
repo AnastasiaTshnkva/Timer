@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import Buttons from "./Buttons";
 
 const StyledTimer = styled.div`
   .time_box {
@@ -79,24 +78,26 @@ const Timer = () => {
     const [givenTime, setGivenTime] = useState('');
     const [minutes, setMinutes] = useState('00');
     const [seconds, setSeconds] = useState('00');
+    const [clearTimer, setClearTimer] = useState(false);
 
     useEffect(() => {
-        if(timerActive && givenTime >= 0) {
-            setTimeout(() => {
+        if(timerActive && givenTime >= 1 && !clearTimer) {
+            const timeout = setTimeout(() => {
+                let shownTime = givenTime - 1;
                 setGivenTime(givenTime - 1);
 
-                if(givenTime < 60) {
+                if(shownTime < 60) {
                     setMinutes('00');
-                    if (givenTime < 10) {
-                        setSeconds('0' + givenTime);
+                    if (shownTime < 10) {
+                        setSeconds('0' + (shownTime));
                     } else {
-                        setSeconds(givenTime);
+                        setSeconds(shownTime);
                     }
                 }
 
-                if(givenTime >= 60) {
-                    const sec = givenTime % 60;
-                    const min = Math.trunc(givenTime / 60)
+                if(shownTime >= 60) {
+                    const sec = (shownTime) % 60;
+                    const min = Math.trunc((shownTime) / 60)
 
                     if (min < 10) {
                         setMinutes('0' + min);
@@ -111,12 +112,16 @@ const Timer = () => {
                     }
                 }
             }, 1000)
+
+            if (clearTimer) {
+                clearTimeout(timeout);
+            }
         } else {
             setTimerActive(false);
             setMinutes('00');
             setSeconds('00');
         }
-    }, [timerActive, givenTime]);
+    }, [timerActive, givenTime, clearTimer]);
 
     return (
         <StyledTimer>
@@ -145,7 +150,11 @@ const Timer = () => {
                            }}/>
                 }
                 <button className={'button'} type={'button'}
-                        onClick={() => setTimerActive(false)}>Refresh</button>
+                        onClick={() => {
+                            setClearTimer(true);
+                            setGivenTime('');
+                            setTimerActive(false);
+                        }}>Refresh</button>
             </div>
         </StyledTimer>
         )
